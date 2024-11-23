@@ -19,7 +19,7 @@ public class TelevisionController {
 
     @PostMapping
     public ResponseEntity<String> addTelevision(@RequestBody String television) {
-        return ResponseEntity.ok("New television: " + television);
+        return ResponseEntity.created(null).body("Television added: " + television);
     }
 
     @PutMapping("/{id}")
@@ -29,6 +29,6 @@ public class TelevisionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTelevisionById(@PathVariable int id) {
-        return ResponseEntity.ok("Deleted television with id: " + id);
+        return ResponseEntity.noContent().build();
     }
 }
