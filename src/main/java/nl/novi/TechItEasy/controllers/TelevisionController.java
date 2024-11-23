@@ -1,5 +1,6 @@
 package nl.novi.TechItEasy.controllers;
 
+import nl.novi.TechItEasy.exceptions.InvalidTelevisionNameException;
 import nl.novi.TechItEasy.exceptions.RecordNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequestMapping("/televisions")
 public class TelevisionController {
 
-    private List<String> televisionDatabase = new ArrayList<>();
+    private final List<String> televisionDatabase = new ArrayList<>();
 
     @GetMapping
     public ResponseEntity<List<String>> getAllTelevisions() {
@@ -25,8 +26,12 @@ public class TelevisionController {
 
     @PostMapping
     public ResponseEntity<String> addTelevision(@RequestBody String television) {
-        televisionDatabase.add(television);
-        return ResponseEntity.created(null).body("Television added: " + television);
+        if (television.length() > 20) {
+            throw new InvalidTelevisionNameException("Television name may not exceed 20 characters");
+        } else {
+            televisionDatabase.add(television);
+            return ResponseEntity.created(null).body("Television added: " + television);
+        }
     }
 
     @PutMapping("/{id}")
@@ -36,6 +41,9 @@ public class TelevisionController {
         } else {
             televisionDatabase.set(id, television);
             return ResponseEntity.ok("Updated television (id: " + id + ") : " + television);
+            //of
+//            return ResponseEntity.noContent().build();
+            //welke van de twee is beter?
         }
     }
 
