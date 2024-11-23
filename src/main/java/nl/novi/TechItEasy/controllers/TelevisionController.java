@@ -11,32 +11,41 @@ import java.util.List;
 @RequestMapping("/televisions")
 public class TelevisionController {
 
-    private List<String> televisionDataBase = new ArrayList<>();
+    private List<String> televisionDatabase = new ArrayList<>();
 
     @GetMapping
     public ResponseEntity<List<String>> getAllTelevisions() {
-        return ResponseEntity.ok(televisionDataBase);
+        return ResponseEntity.ok(televisionDatabase);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<String> getTelevisionById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(televisionDataBase.get(id));
+        return ResponseEntity.ok(televisionDatabase.get(id));
     }
 
     @PostMapping
     public ResponseEntity<String> addTelevision(@RequestBody String television) {
-        televisionDataBase.add(television);
+        televisionDatabase.add(television);
         return ResponseEntity.created(null).body("Television added: " + television);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateTelevisionById(@PathVariable int id, @RequestBody String television) {
-        return ResponseEntity.ok("Updated television (id: " + id + ") : " + television);
+        if (televisionDatabase.isEmpty() || id >= televisionDatabase.size()) {
+            throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
+        } else {
+            televisionDatabase.set(id, television);
+            return ResponseEntity.ok("Updated television (id: " + id + ") : " + television);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTelevisionById(@PathVariable int id) {
-        televisionDataBase.set(id, null);
-        return ResponseEntity.noContent().build();
+        if (televisionDatabase.isEmpty() || id >= televisionDatabase.size()) {
+            throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
+        } else {
+            televisionDatabase.set(id, null);
+            return ResponseEntity.noContent().build();
+        }
     }
 }
