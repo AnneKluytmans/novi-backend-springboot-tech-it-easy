@@ -22,7 +22,7 @@ public class TelevisionController {
     @GetMapping("/{id}")
     public ResponseEntity<String> getTelevisionById(@PathVariable("id") int id) {
         if (id >= televisionDatabase.size()) {
-            throw new RecordNotFoundException("Television with id \\\"\" + id + \"\\\" not found.");
+            throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
         } else {
             return ResponseEntity.ok(televisionDatabase.get(id));
         }
