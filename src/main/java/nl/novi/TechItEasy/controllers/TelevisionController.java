@@ -21,7 +21,11 @@ public class TelevisionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> getTelevisionById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(televisionDatabase.get(id));
+        if (id >= televisionDatabase.size()) {
+            throw new RecordNotFoundException("Television with id \\\"\" + id + \"\\\" not found.");
+        } else {
+            return ResponseEntity.ok(televisionDatabase.get(id));
+        }
     }
 
     @PostMapping
@@ -36,7 +40,7 @@ public class TelevisionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateTelevisionById(@PathVariable int id, @RequestBody String television) {
-        if (televisionDatabase.isEmpty() || id >= televisionDatabase.size()) {
+        if (id >= televisionDatabase.size()) {
             throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
         } else {
             televisionDatabase.set(id, television);
@@ -49,7 +53,7 @@ public class TelevisionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTelevisionById(@PathVariable int id) {
-        if (televisionDatabase.isEmpty() || id >= televisionDatabase.size()) {
+        if (id >= televisionDatabase.size()) {
             throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
         } else {
             televisionDatabase.set(id, null);
