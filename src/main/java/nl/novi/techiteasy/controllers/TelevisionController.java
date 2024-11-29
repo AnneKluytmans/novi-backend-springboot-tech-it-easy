@@ -1,7 +1,7 @@
-package nl.novi.TechItEasy.controllers;
+package nl.novi.techiteasy.controllers;
 
-import nl.novi.TechItEasy.exceptions.InvalidTelevisionNameException;
-import nl.novi.TechItEasy.exceptions.RecordNotFoundException;
+import nl.novi.techiteasy.exceptions.InvalidTelevisionNameException;
+import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
