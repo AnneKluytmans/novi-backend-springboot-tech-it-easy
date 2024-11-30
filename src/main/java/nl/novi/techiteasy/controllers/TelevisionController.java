@@ -7,7 +7,6 @@ import nl.novi.techiteasy.repositories.TelevisionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +75,7 @@ public class TelevisionController {
             updatedTelevision.setAmbiLight(newTelevision.getAmbiLight());
             updatedTelevision.setOriginalStock(newTelevision.getOriginalStock());
             updatedTelevision.setSold(newTelevision.getSold());
+            updatedTelevision.setSaleDate(newTelevision.getSaleDate());
             televisionRepository.save(updatedTelevision);
             return ResponseEntity.ok(updatedTelevision);
         } else {
@@ -139,6 +139,9 @@ public class TelevisionController {
             }
             if (newTelevision.getSold() != null) {
                 updatedTelevision.setSold(newTelevision.getSold());
+            }
+            if (newTelevision.getSaleDate() != null) {
+                updatedTelevision.setSaleDate(newTelevision.getSaleDate());
             }
             televisionRepository.save(updatedTelevision);
             return ResponseEntity.ok(updatedTelevision);
