@@ -1,9 +1,6 @@
 package nl.novi.techiteasy.models;
 
 import jakarta.persistence.*;
-import nl.novi.techiteasy.enums.TelevisionType;
-
-import java.time.LocalDate;
 
 @Entity
 public class Television {
@@ -11,9 +8,7 @@ public class Television {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private TelevisionType type;
-
+    private String type;
     private String brand;
     private String name;
     private Double price;
@@ -29,16 +24,15 @@ public class Television {
     private Boolean ambiLight;
     private Integer originalStock;
     private Integer sold;
-    private LocalDate saleDate;
 
     // Default constructor
     public Television() {
     }
 
     // Constructor
-    public Television(TelevisionType type, String brand, String name, Double price, Double availableSize, Integer refreshRate,
+    public Television(String type, String brand, String name, Double price, Double availableSize, Integer refreshRate,
                       String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl,
-                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold, LocalDate saleDate) {
+                      Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
         this.type = type;
         this.brand = brand;
         this.name = name;
@@ -55,7 +49,6 @@ public class Television {
         this.ambiLight = ambiLight;
         this.originalStock = originalStock;
         this.sold = sold;
-        this.saleDate = saleDate;
     }
 
 
@@ -64,7 +57,7 @@ public class Television {
         return id;
     }
 
-    public TelevisionType getType() {
+    public String getType() {
         return type;
     }
 
@@ -128,10 +121,6 @@ public class Television {
         return sold;
     }
 
-    public LocalDate getSaleDate() {
-        return saleDate;
-    }
-
 
     //Setters
     //Moet je voor id een setter toevoegen als je al die @GeneratedValue gebruikt of laat je deze weg?
@@ -139,7 +128,7 @@ public class Television {
         this.id = id;
     }
 
-    public void setType(TelevisionType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -201,9 +190,5 @@ public class Television {
 
     public void setSold(Integer sold) {
         this.sold = sold;
-    }
-
-    public void setSaleDate(LocalDate saleDate) {
-        this.saleDate = saleDate;
     }
 }

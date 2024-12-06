@@ -75,7 +75,6 @@ public class TelevisionController {
             updatedTelevision.setAmbiLight(newTelevision.getAmbiLight());
             updatedTelevision.setOriginalStock(newTelevision.getOriginalStock());
             updatedTelevision.setSold(newTelevision.getSold());
-            updatedTelevision.setSaleDate(newTelevision.getSaleDate());
             televisionRepository.save(updatedTelevision);
             return ResponseEntity.ok(updatedTelevision);
         } else {
@@ -140,15 +139,10 @@ public class TelevisionController {
             if (newTelevision.getSold() != null) {
                 updatedTelevision.setSold(newTelevision.getSold());
             }
-            if (newTelevision.getSaleDate() != null) {
-                updatedTelevision.setSaleDate(newTelevision.getSaleDate());
-            }
             televisionRepository.save(updatedTelevision);
             return ResponseEntity.ok(updatedTelevision);
         } else {
             throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
-            televisionDatabase.set(id, television);
-            return ResponseEntity.noContent().build();
         }
     }
 
