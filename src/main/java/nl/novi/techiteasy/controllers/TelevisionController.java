@@ -147,6 +147,8 @@ public class TelevisionController {
             return ResponseEntity.ok(updatedTelevision);
         } else {
             throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
+            televisionDatabase.set(id, television);
+            return ResponseEntity.noContent().build();
         }
     }
 
