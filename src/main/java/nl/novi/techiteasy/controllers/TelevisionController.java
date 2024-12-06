@@ -44,10 +44,7 @@ public class TelevisionController {
             throw new RecordNotFoundException("Television with id \"" + id + "\" not found.");
         } else {
             televisionDatabase.set(id, television);
-            return ResponseEntity.ok("Updated television (id: " + id + ") : " + television);
-            //of
-//            return ResponseEntity.noContent().build();
-            //welke van de twee is beter?
+            return ResponseEntity.noContent().build();
         }
     }
 
