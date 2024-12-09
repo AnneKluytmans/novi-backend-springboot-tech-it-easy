@@ -162,11 +162,6 @@ public class Television {
 
 
     //Setters
-    //Moet je voor id een setter toevoegen als je al die @GeneratedValue gebruikt of laat je deze weg?
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setType(TelevisionType type) {
         this.type = type;
     }
