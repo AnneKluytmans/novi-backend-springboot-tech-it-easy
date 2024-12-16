@@ -57,6 +57,7 @@ public class Television {
     @Min(value = 0, message = "Sold items cannot be negative.")
     private Integer sold;
 
+    @PastOrPresent
     private LocalDate saleDate;
 
     // Default constructor
