@@ -1,17 +1,29 @@
 package nl.novi.techiteasy.dtos;
 
 import nl.novi.techiteasy.enums.TelevisionType;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public class TelevisionOutputDto {
-    private Long id;
+public class TelevisionPatchDTO {
+
     private TelevisionType type;
+
+    @Size(max = 50, message = "Brand name cannot exceed 50 characters.")
     private String brand;
+
+    @Size(max = 50, message = "Name cannot exceed 50 characters.")
     private String name;
+
+    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.")
     private Double price;
+
+    @DecimalMin(value = "0.1", message = "Available size must be greater than 0.")
     private Double availableSize;
+
+    @Min(value = 30, message = "Refresh rate must be at least 30Hz.")
     private Integer refreshRate;
+
     private String screenType;
     private String screenQuality;
     private Boolean smartTv;
@@ -20,35 +32,38 @@ public class TelevisionOutputDto {
     private Boolean hdr;
     private Boolean bluetooth;
     private Boolean ambiLight;
+
+    @Min(value = 0, message = "Original stock cannot be negative.")
     private Integer originalStock;
+
+    @Min(value = 0, message = "Sold items cannot be negative.")
     private Integer sold;
+
     private LocalDate saleDate;
 
-    public Long getId() {
-        return id;
-    }
 
+    //getters
     public TelevisionType getType() {
         return type;
     }
 
-    public String getBrand() {
+    public @Size(max = 50, message = "Brand name cannot exceed 50 characters.") String getBrand() {
         return brand;
     }
 
-    public String getName() {
+    public @Size(max = 50, message = "Name cannot exceed 50 characters.") String getName() {
         return name;
     }
 
-    public Double getPrice() {
+    public @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.") Double getPrice() {
         return price;
     }
 
-    public Double getAvailableSize() {
+    public @DecimalMin(value = "0.1", message = "Available size must be greater than 0.") Double getAvailableSize() {
         return availableSize;
     }
 
-    public Integer getRefreshRate() {
+    public @Min(value = 30, message = "Refresh rate must be at least 30Hz.") Integer getRefreshRate() {
         return refreshRate;
     }
 
@@ -84,11 +99,11 @@ public class TelevisionOutputDto {
         return ambiLight;
     }
 
-    public Integer getOriginalStock() {
+    public @Min(value = 0, message = "Original stock cannot be negative.") Integer getOriginalStock() {
         return originalStock;
     }
 
-    public Integer getSold() {
+    public @Min(value = 0, message = "Sold items cannot be negative.") Integer getSold() {
         return sold;
     }
 
@@ -97,31 +112,28 @@ public class TelevisionOutputDto {
     }
 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    //setters
     public void setType(TelevisionType type) {
         this.type = type;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(@Size(max = 50, message = "Brand name cannot exceed 50 characters.") String brand) {
         this.brand = brand;
     }
 
-    public void setName(String name) {
+    public void setName(@Size(max = 50, message = "Name cannot exceed 50 characters.") String name) {
         this.name = name;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(@DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.") Double price) {
         this.price = price;
     }
 
-    public void setAvailableSize(Double availableSize) {
+    public void setAvailableSize(@DecimalMin(value = "0.1", message = "Available size must be greater than 0.") Double availableSize) {
         this.availableSize = availableSize;
     }
 
-    public void setRefreshRate(Integer refreshRate) {
+    public void setRefreshRate(@Min(value = 30, message = "Refresh rate must be at least 30Hz.") Integer refreshRate) {
         this.refreshRate = refreshRate;
     }
 
@@ -157,11 +169,11 @@ public class TelevisionOutputDto {
         this.ambiLight = ambiLight;
     }
 
-    public void setOriginalStock(Integer originalStock) {
+    public void setOriginalStock(@Min(value = 0, message = "Original stock cannot be negative.") Integer originalStock) {
         this.originalStock = originalStock;
     }
 
-    public void setSold(Integer sold) {
+    public void setSold(@Min(value = 0, message = "Sold items cannot be negative.") Integer sold) {
         this.sold = sold;
     }
 

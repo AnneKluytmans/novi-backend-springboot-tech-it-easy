@@ -1,9 +1,6 @@
 package nl.novi.techiteasy.services;
 
-import nl.novi.techiteasy.dtos.SalesInfoDto;
-import nl.novi.techiteasy.dtos.TelevisionInputDto;
-import nl.novi.techiteasy.dtos.TelevisionOutputDto;
-import nl.novi.techiteasy.dtos.TelevisionPatchDto;
+import nl.novi.techiteasy.dtos.*;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.mappers.TelevisionMapper;
 import nl.novi.techiteasy.models.Television;
@@ -20,49 +17,49 @@ public class TelevisionService {
         this.televisionRepository = televisionRepository;
     }
 
-    public List<TelevisionOutputDto> getTelevisions(String brand) {
+    public List<TelevisionResponseDTO> getTelevisions(String brand) {
         List<Television> televisions = (brand == null) ? televisionRepository.findAll() : televisionRepository.findByBrandIgnoreCase(brand);
         return TelevisionMapper.toDtoList(televisions);
     }
 
-    public TelevisionOutputDto getTelevisionById(Long id) {
+    public TelevisionResponseDTO getTelevisionById(Long id) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
         return TelevisionMapper.toDto(television);
     }
 
-    public TelevisionOutputDto addTelevision(TelevisionInputDto inputDto) {
-        Television television = TelevisionMapper.toEntity(inputDto);
+    public TelevisionResponseDTO addTelevision(TelevisionCreateDTO createDto) {
+        Television television = TelevisionMapper.toEntity(createDto);
         Television savedTelevision = televisionRepository.save(television);
         return TelevisionMapper.toDto(savedTelevision);
     }
 
-    public TelevisionOutputDto updateTelevision(Long id, TelevisionInputDto inputDto) {
+    public TelevisionResponseDTO updateTelevision(Long id, TelevisionUpdateDTO updateDTO) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
 
-        television.setType(inputDto.getType());
-        television.setBrand(inputDto.getBrand());
-        television.setName(inputDto.getName());
-        television.setPrice(inputDto.getPrice());
-        television.setAvailableSize(inputDto.getAvailableSize());
-        television.setRefreshRate(inputDto.getRefreshRate());
-        television.setScreenType(inputDto.getScreenType());
-        television.setScreenQuality(inputDto.getScreenQuality());
-        television.setSmartTv(inputDto.getSmartTv());
-        television.setWifi(inputDto.getWifi());
-        television.setVoiceControl(inputDto.getVoiceControl());
-        television.setHdr(inputDto.getHdr());
-        television.setBluetooth(inputDto.getBluetooth());
-        television.setAmbiLight(inputDto.getAmbiLight());
-        television.setOriginalStock(inputDto.getOriginalStock());
-        television.setSold(inputDto.getSold());
-        television.setSaleDate(inputDto.getSaleDate());
+        television.setType(updateDTO.getType());
+        television.setBrand(updateDTO.getBrand());
+        television.setName(updateDTO.getName());
+        television.setPrice(updateDTO.getPrice());
+        television.setAvailableSize(updateDTO.getAvailableSize());
+        television.setRefreshRate(updateDTO.getRefreshRate());
+        television.setScreenType(updateDTO.getScreenType());
+        television.setScreenQuality(updateDTO.getScreenQuality());
+        television.setSmartTv(updateDTO.getSmartTv());
+        television.setWifi(updateDTO.getWifi());
+        television.setVoiceControl(updateDTO.getVoiceControl());
+        television.setHdr(updateDTO.getHdr());
+        television.setBluetooth(updateDTO.getBluetooth());
+        television.setAmbiLight(updateDTO.getAmbiLight());
+        television.setOriginalStock(updateDTO.getOriginalStock());
+        television.setSold(updateDTO.getSold());
+        television.setSaleDate(updateDTO.getSaleDate());
 
         return TelevisionMapper.toDto(televisionRepository.save(television));
     }
 
-    public TelevisionOutputDto partialUpdateTelevision(Long id, TelevisionPatchDto patchDto) {
+    public TelevisionResponseDTO partialUpdateTelevision(Long id, TelevisionPatchDTO patchDto) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
 
@@ -127,7 +124,7 @@ public class TelevisionService {
         televisionRepository.deleteById(id);
     }
 
-    public List<SalesInfoDto> getSalesInfo() {
+    public List<SalesInfoResponseDTO> getSalesInfo() {
         return TelevisionMapper.toSalesInfoDtoList(televisionRepository.findAll());
     }
 }

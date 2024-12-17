@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public class TelevisionInputDto {
+public class TelevisionCreateDTO {
     @NotNull(message = "Type is required.")
     private TelevisionType type;
 

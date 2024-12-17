@@ -1,8 +1,9 @@
 package nl.novi.techiteasy.mappers;
 
-import nl.novi.techiteasy.dtos.SalesInfoDto;
-import nl.novi.techiteasy.dtos.TelevisionInputDto;
-import nl.novi.techiteasy.dtos.TelevisionOutputDto;
+import nl.novi.techiteasy.dtos.SalesInfoResponseDTO;
+import nl.novi.techiteasy.dtos.TelevisionCreateDTO;
+import nl.novi.techiteasy.dtos.TelevisionResponseDTO;
+import nl.novi.techiteasy.dtos.TelevisionUpdateDTO;
 import nl.novi.techiteasy.models.Television;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class TelevisionMapper {
-    public static TelevisionOutputDto toDto(Television television) {
-        TelevisionOutputDto dto = new TelevisionOutputDto();
+    public static TelevisionResponseDTO toDto(Television television) {
+        TelevisionResponseDTO dto = new TelevisionResponseDTO();
         dto.setId(television.getId());
         dto.setType(television.getType());
         dto.setBrand(television.getBrand());
@@ -34,34 +35,56 @@ public class TelevisionMapper {
         return dto;
     }
 
-    public static List<TelevisionOutputDto> toDtoList(List<Television> televisions) {
+    public static List<TelevisionResponseDTO> toDtoList(List<Television> televisions) {
         return televisions.stream().map(TelevisionMapper::toDto).collect(Collectors.toList());
     }
 
-    public static Television toEntity(TelevisionInputDto inputDto) {
+    public static Television toEntity(TelevisionCreateDTO createDto) {
         Television television = new Television();
-        television.setType(inputDto.getType());
-        television.setBrand(inputDto.getBrand());
-        television.setName(inputDto.getName());
-        television.setPrice(inputDto.getPrice());
-        television.setAvailableSize(inputDto.getAvailableSize());
-        television.setRefreshRate(inputDto.getRefreshRate());
-        television.setScreenType(inputDto.getScreenType());
-        television.setScreenQuality(inputDto.getScreenQuality());
-        television.setSmartTv(inputDto.getSmartTv());
-        television.setWifi(inputDto.getWifi());
-        television.setVoiceControl(inputDto.getVoiceControl());
-        television.setHdr(inputDto.getHdr());
-        television.setBluetooth(inputDto.getBluetooth());
-        television.setAmbiLight(inputDto.getAmbiLight());
-        television.setOriginalStock(inputDto.getOriginalStock());
-        television.setSold(inputDto.getSold());
-        television.setSaleDate(inputDto.getSaleDate());
+        television.setType(createDto.getType());
+        television.setBrand(createDto.getBrand());
+        television.setName(createDto.getName());
+        television.setPrice(createDto.getPrice());
+        television.setAvailableSize(createDto.getAvailableSize());
+        television.setRefreshRate(createDto.getRefreshRate());
+        television.setScreenType(createDto.getScreenType());
+        television.setScreenQuality(createDto.getScreenQuality());
+        television.setSmartTv(createDto.getSmartTv());
+        television.setWifi(createDto.getWifi());
+        television.setVoiceControl(createDto.getVoiceControl());
+        television.setHdr(createDto.getHdr());
+        television.setBluetooth(createDto.getBluetooth());
+        television.setAmbiLight(createDto.getAmbiLight());
+        television.setOriginalStock(createDto.getOriginalStock());
+        television.setSold(createDto.getSold());
+        television.setSaleDate(createDto.getSaleDate());
         return television;
     }
 
-    public static SalesInfoDto toSalesInfoDto(Television television) {
-        var dto = new SalesInfoDto();
+    public static Television toUpdateEntity(TelevisionUpdateDTO updateDto) {
+        Television television = new Television();
+        television.setType(updateDto.getType());
+        television.setBrand(updateDto.getBrand());
+        television.setName(updateDto.getName());
+        television.setPrice(updateDto.getPrice());
+        television.setAvailableSize(updateDto.getAvailableSize());
+        television.setRefreshRate(updateDto.getRefreshRate());
+        television.setScreenType(updateDto.getScreenType());
+        television.setScreenQuality(updateDto.getScreenQuality());
+        television.setSmartTv(updateDto.getSmartTv());
+        television.setWifi(updateDto.getWifi());
+        television.setVoiceControl(updateDto.getVoiceControl());
+        television.setHdr(updateDto.getHdr());
+        television.setBluetooth(updateDto.getBluetooth());
+        television.setAmbiLight(updateDto.getAmbiLight());
+        television.setOriginalStock(updateDto.getOriginalStock());
+        television.setSold(updateDto.getSold());
+        television.setSaleDate(updateDto.getSaleDate());
+        return television;
+    }
+
+    public static SalesInfoResponseDTO toSalesInfoDto(Television television) {
+        var dto = new SalesInfoResponseDTO();
         dto.setId(television.getId());
         dto.setPrice(television.getPrice());
         dto.setOriginalStock(television.getOriginalStock());
@@ -69,7 +92,7 @@ public class TelevisionMapper {
         return dto;
     }
 
-    public static List<SalesInfoDto> toSalesInfoDtoList(List<Television> televisions) {
+    public static List<SalesInfoResponseDTO> toSalesInfoDtoList(List<Television> televisions) {
         return televisions.stream().map(TelevisionMapper::toSalesInfoDto).collect(Collectors.toList());
     }
 }
