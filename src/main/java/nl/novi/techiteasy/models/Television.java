@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 
 import nl.novi.techiteasy.enums.TelevisionType;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Television extends Product {
@@ -33,8 +34,18 @@ public class Television extends Product {
     private Boolean bluetooth;
     private Boolean ambiLight;
 
+    @OneToMany(mappedBy = "television", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CiModule> ciModules;
 
-    //Constructors
+    @ManyToMany
+    @JoinTable(
+            name = "television_wallbracket",
+            joinColumns = @JoinColumn(name = "television_id"),
+            inverseJoinColumns = @JoinColumn(name = "wallbracket_id")
+    )
+    private List<WallBracket> wallBrackets;
+
+    // Constructors
     public Television() {
         super();
     }
@@ -56,7 +67,7 @@ public class Television extends Product {
         this.ambiLight = ambiLight;
     }
 
-    //Getters en setters
+    //Getters and setters
 
     public TelevisionType getType() {
         return type;

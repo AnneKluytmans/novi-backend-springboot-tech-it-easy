@@ -1,6 +1,8 @@
 package nl.novi.techiteasy.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -19,17 +21,22 @@ public class CiModule extends Product {
     @Size(max = 24, message = "Encoding type cannot exceed 24 characters.")
     private String encodingType;
 
+    @ManyToOne
+    @JoinColumn(name = "television_id", referencedColumnName = "id")
+    private Television television;
 
-    //Constructor
+    //Constructors
     public CiModule() {
         super();
     }
 
-    public CiModule(String brand, String name, Double price, Integer originalStock, Integer sold, LocalDate saleDate, String type, String provider, String encodingType) {
+    public CiModule(String type, String brand, String name, Double price, String provider, String encodingType,
+                    Integer originalStock, Integer sold, LocalDate saleDate, Television television) {
         super(brand, name, price, originalStock, sold, saleDate);
         this.type = type;
         this.provider = provider;
         this.encodingType = encodingType;
+        this.television = television;
     }
 
 
@@ -58,4 +65,11 @@ public class CiModule extends Product {
         this.encodingType = encodingType;
     }
 
+    public Television getTelevision() {
+        return television;
+    }
+
+    public void setTelevision(Television television) {
+        this.television = television;
+    }
 }
