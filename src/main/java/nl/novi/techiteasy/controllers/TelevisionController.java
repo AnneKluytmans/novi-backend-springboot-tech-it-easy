@@ -3,7 +3,7 @@ package nl.novi.techiteasy.controllers;
 import jakarta.validation.Valid;
 import nl.novi.techiteasy.dtos.SalesInfoDto;
 import nl.novi.techiteasy.dtos.TelevisionInputDto;
-import nl.novi.techiteasy.dtos.TelevisionDto;
+import nl.novi.techiteasy.dtos.TelevisionOutputDto;
 import nl.novi.techiteasy.dtos.TelevisionPatchDto;
 import nl.novi.techiteasy.services.TelevisionService;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class TelevisionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TelevisionDto>> getAllTelevisions(@RequestParam(value = "brand", required = false) String brand) {
+    public ResponseEntity<List<TelevisionOutputDto>> getAllTelevisions(@RequestParam(value = "brand", required = false) String brand) {
         return ResponseEntity.ok(televisionService.getTelevisions(brand));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TelevisionDto> getTelevisionById(@PathVariable("id") Long id) {
+    public ResponseEntity<TelevisionOutputDto> getTelevisionById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(televisionService.getTelevisionById(id));
     }
 

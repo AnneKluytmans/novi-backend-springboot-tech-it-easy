@@ -2,7 +2,7 @@ package nl.novi.techiteasy.services;
 
 import nl.novi.techiteasy.dtos.SalesInfoDto;
 import nl.novi.techiteasy.dtos.TelevisionInputDto;
-import nl.novi.techiteasy.dtos.TelevisionDto;
+import nl.novi.techiteasy.dtos.TelevisionOutputDto;
 import nl.novi.techiteasy.dtos.TelevisionPatchDto;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
 import nl.novi.techiteasy.mappers.TelevisionMapper;
@@ -20,24 +20,24 @@ public class TelevisionService {
         this.televisionRepository = televisionRepository;
     }
 
-    public List<TelevisionDto> getTelevisions(String brand) {
+    public List<TelevisionOutputDto> getTelevisions(String brand) {
         List<Television> televisions = (brand == null) ? televisionRepository.findAll() : televisionRepository.findByBrandIgnoreCase(brand);
         return TelevisionMapper.toDtoList(televisions);
     }
 
-    public TelevisionDto getTelevisionById(Long id) {
+    public TelevisionOutputDto getTelevisionById(Long id) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
         return TelevisionMapper.toDto(television);
     }
 
-    public TelevisionDto addTelevision(TelevisionInputDto inputDto) {
+    public TelevisionOutputDto addTelevision(TelevisionInputDto inputDto) {
         Television television = TelevisionMapper.toEntity(inputDto);
         Television savedTelevision = televisionRepository.save(television);
         return TelevisionMapper.toDto(savedTelevision);
     }
 
-    public TelevisionDto updateTelevision(Long id, TelevisionInputDto inputDto) {
+    public TelevisionOutputDto updateTelevision(Long id, TelevisionInputDto inputDto) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
 
@@ -62,7 +62,7 @@ public class TelevisionService {
         return TelevisionMapper.toDto(televisionRepository.save(television));
     }
 
-    public TelevisionDto partialUpdateTelevision(Long id, TelevisionPatchDto patchDto) {
+    public TelevisionOutputDto partialUpdateTelevision(Long id, TelevisionPatchDto patchDto) {
         Television television = televisionRepository.findById(id)
                 .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
 
