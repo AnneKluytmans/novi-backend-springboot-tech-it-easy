@@ -28,6 +28,11 @@ public class TelevisionService {
         return TelevisionMapper.toDto(television);
     }
 
+    public Television getTelevisionEntityById(Long id) {
+        return televisionRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
+    }
+
     public TelevisionResponseDTO addTelevision(TelevisionCreateDTO createDto) {
         Television television = TelevisionMapper.toEntity(createDto);
         Television savedTelevision = televisionRepository.save(television);

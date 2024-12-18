@@ -54,7 +54,7 @@ public class RemoteControllerUpdateDTO {
         return batteryType;
     }
 
-    public boolean isSmart() {
+    public boolean getIsSmart() {
         return isSmart;
     }
 
@@ -91,7 +91,7 @@ public class RemoteControllerUpdateDTO {
         this.batteryType = batteryType;
     }
 
-    public void setSmart(boolean smart) {
+    public void setIsSmart(boolean smart) {
         isSmart = smart;
     }
 

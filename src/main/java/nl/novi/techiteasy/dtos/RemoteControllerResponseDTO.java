@@ -36,7 +36,7 @@ public class RemoteControllerResponseDTO {
         return batteryType;
     }
 
-    public boolean isSmart() {
+    public boolean getIsSmart() {
         return isSmart;
     }
 
@@ -57,6 +57,10 @@ public class RemoteControllerResponseDTO {
     }
 
     //setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
@@ -73,7 +77,7 @@ public class RemoteControllerResponseDTO {
         this.batteryType = batteryType;
     }
 
-    public void setSmart(boolean smart) {
+    public void setIsSmart(boolean smart) {
         isSmart = smart;
     }
 

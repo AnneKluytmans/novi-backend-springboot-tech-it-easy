@@ -42,11 +42,11 @@ public class RemoteController extends Product {
         this.batteryType = batteryType;
     }
 
-    public boolean isSmart() {
+    public boolean getIsSmart() {
         return isSmart;
     }
 
-    public void setSmart(boolean smart) {
+    public void setIsSmart(boolean smart) {
         isSmart = smart;
     }
 
