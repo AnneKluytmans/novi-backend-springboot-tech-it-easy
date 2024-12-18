@@ -99,6 +99,10 @@ public class TelevisionResponseDTO {
 
 
     //setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setType(TelevisionType type) {
         this.type = type;
     }

@@ -61,28 +61,6 @@ public class TelevisionMapper {
         return television;
     }
 
-    public static Television toUpdateEntity(TelevisionUpdateDTO updateDto) {
-        Television television = new Television();
-        television.setType(updateDto.getType());
-        television.setBrand(updateDto.getBrand());
-        television.setName(updateDto.getName());
-        television.setPrice(updateDto.getPrice());
-        television.setAvailableSize(updateDto.getAvailableSize());
-        television.setRefreshRate(updateDto.getRefreshRate());
-        television.setScreenType(updateDto.getScreenType());
-        television.setScreenQuality(updateDto.getScreenQuality());
-        television.setSmartTv(updateDto.getSmartTv());
-        television.setWifi(updateDto.getWifi());
-        television.setVoiceControl(updateDto.getVoiceControl());
-        television.setHdr(updateDto.getHdr());
-        television.setBluetooth(updateDto.getBluetooth());
-        television.setAmbiLight(updateDto.getAmbiLight());
-        television.setOriginalStock(updateDto.getOriginalStock());
-        television.setSold(updateDto.getSold());
-        television.setSaleDate(updateDto.getSaleDate());
-        return television;
-    }
-
     public static SalesInfoResponseDTO toSalesInfoDto(Television television) {
         var dto = new SalesInfoResponseDTO();
         dto.setId(television.getId());
