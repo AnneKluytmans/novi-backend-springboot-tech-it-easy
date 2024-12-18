@@ -50,7 +50,7 @@ public class TelevisionCreateDTO {
     @Min(value = 0, message = "Sold items cannot be negative.")
     private Integer sold;
 
-    @PastOrPresent
+    @PastOrPresent(message = "Sale Date cannot be in the future.")
     private LocalDate saleDate;
 
     //getters

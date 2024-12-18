@@ -39,6 +39,7 @@ public class TelevisionPatchDTO {
     @Min(value = 0, message = "Sold items cannot be negative.")
     private Integer sold;
 
+    @PastOrPresent(message = "Sale Date cannot be in the future.")
     private LocalDate saleDate;
 
 
@@ -47,23 +48,23 @@ public class TelevisionPatchDTO {
         return type;
     }
 
-    public @Size(max = 50, message = "Brand name cannot exceed 50 characters.") String getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public @Size(max = 50, message = "Name cannot exceed 50 characters.") String getName() {
+    public String getName() {
         return name;
     }
 
-    public @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.") Double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public @DecimalMin(value = "0.1", message = "Available size must be greater than 0.") Double getAvailableSize() {
+    public Double getAvailableSize() {
         return availableSize;
     }
 
-    public @Min(value = 30, message = "Refresh rate must be at least 30Hz.") Integer getRefreshRate() {
+    public Integer getRefreshRate() {
         return refreshRate;
     }
 
@@ -99,11 +100,11 @@ public class TelevisionPatchDTO {
         return ambiLight;
     }
 
-    public @Min(value = 0, message = "Original stock cannot be negative.") Integer getOriginalStock() {
+    public Integer getOriginalStock() {
         return originalStock;
     }
 
-    public @Min(value = 0, message = "Sold items cannot be negative.") Integer getSold() {
+    public Integer getSold() {
         return sold;
     }
 
@@ -117,23 +118,23 @@ public class TelevisionPatchDTO {
         this.type = type;
     }
 
-    public void setBrand(@Size(max = 50, message = "Brand name cannot exceed 50 characters.") String brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    public void setName(@Size(max = 50, message = "Name cannot exceed 50 characters.") String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(@DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.") Double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public void setAvailableSize(@DecimalMin(value = "0.1", message = "Available size must be greater than 0.") Double availableSize) {
+    public void setAvailableSize(Double availableSize) {
         this.availableSize = availableSize;
     }
 
-    public void setRefreshRate(@Min(value = 30, message = "Refresh rate must be at least 30Hz.") Integer refreshRate) {
+    public void setRefreshRate(Integer refreshRate) {
         this.refreshRate = refreshRate;
     }
 
@@ -169,11 +170,11 @@ public class TelevisionPatchDTO {
         this.ambiLight = ambiLight;
     }
 
-    public void setOriginalStock(@Min(value = 0, message = "Original stock cannot be negative.") Integer originalStock) {
+    public void setOriginalStock(Integer originalStock) {
         this.originalStock = originalStock;
     }
 
-    public void setSold(@Min(value = 0, message = "Sold items cannot be negative.") Integer sold) {
+    public void setSold(Integer sold) {
         this.sold = sold;
     }
 

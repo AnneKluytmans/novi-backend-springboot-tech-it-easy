@@ -24,6 +24,7 @@ public class TelevisionResponseDTO {
     private Integer sold;
     private LocalDate saleDate;
 
+    //getters
     public Long getId() {
         return id;
     }
@@ -97,10 +98,7 @@ public class TelevisionResponseDTO {
     }
 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    //setters
     public void setType(TelevisionType type) {
         this.type = type;
     }
