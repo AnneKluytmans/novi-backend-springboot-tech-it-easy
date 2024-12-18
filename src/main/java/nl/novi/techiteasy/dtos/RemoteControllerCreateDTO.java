@@ -34,8 +34,6 @@ public class RemoteControllerCreateDTO {
     @PastOrPresent(message = "Sale Date cannot be in the future.")
     private LocalDate saleDate;
 
-    private Long televisionId;
-
 
     //getters
     public String getBrand() {
@@ -70,9 +68,6 @@ public class RemoteControllerCreateDTO {
         return saleDate;
     }
 
-    public Long getTelevisionId() {
-        return televisionId;
-    }
 
     //setters
     public void setBrand(String brand) {
@@ -105,9 +100,5 @@ public class RemoteControllerCreateDTO {
 
     public void setSaleDate(LocalDate saleDate) {
         this.saleDate = saleDate;
-    }
-
-    public void setTelevisionId(Long televisionId) {
-        this.televisionId = televisionId;
     }
 }

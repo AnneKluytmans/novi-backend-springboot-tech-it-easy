@@ -12,7 +12,6 @@ public class RemoteControllerResponseDTO {
     private Integer originalStock;
     private Integer sold;
     private LocalDate saleDate;
-    private Long televisionId;
 
 
     //getters
@@ -52,9 +51,6 @@ public class RemoteControllerResponseDTO {
         return saleDate;
     }
 
-    public Long getTelevisionId() {
-        return televisionId;
-    }
 
     //setters
     public void setId(Long id) {
@@ -91,9 +87,5 @@ public class RemoteControllerResponseDTO {
 
     public void setSaleDate(LocalDate saleDate) {
         this.saleDate = saleDate;
-    }
-
-    public void setTelevisionId(Long televisionId) {
-        this.televisionId = televisionId;
     }
 }

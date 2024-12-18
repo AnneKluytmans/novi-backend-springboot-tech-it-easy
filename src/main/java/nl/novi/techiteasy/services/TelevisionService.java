@@ -134,15 +134,6 @@ public class TelevisionService {
         televisionRepository.deleteById(id);
     }
 
-
-    public List<RemoteControllerResponseDTO> getRemoteControllers(Long id) {
-        Television television = televisionRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
-
-        List<RemoteController> remoteControllers = remoteControllerRepository.findByTelevision(television);
-        return RemoteControllerMapper.toDtoList(remoteControllers);
-    }
-
     public List<SalesInfoResponseDTO> getSalesInfo() {
         return TelevisionMapper.toSalesInfoDtoList(televisionRepository.findAll());
     }

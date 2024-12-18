@@ -2,7 +2,6 @@ package nl.novi.techiteasy.controllers;
 
 import jakarta.validation.Valid;
 import nl.novi.techiteasy.dtos.*;
-import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.services.TelevisionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -60,11 +59,6 @@ public class TelevisionController {
     public ResponseEntity<Void> deleteTelevisionById(@PathVariable Long id) {
         televisionService.deleteTelevision(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}/remote-controllers")
-    public ResponseEntity<List<RemoteControllerResponseDTO>> getRemoteControllers(@PathVariable Long id) {
-        return ResponseEntity.ok(televisionService.getRemoteControllers(id));
     }
 
     @GetMapping("/sales")

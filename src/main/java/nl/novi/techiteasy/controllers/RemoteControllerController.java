@@ -6,6 +6,7 @@ import nl.novi.techiteasy.dtos.RemoteControllerPatchDTO;
 import nl.novi.techiteasy.dtos.RemoteControllerResponseDTO;
 import nl.novi.techiteasy.dtos.RemoteControllerUpdateDTO;
 import nl.novi.techiteasy.services.RemoteControllerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/remote-controllers")
+@RequestMapping("/televisions/{televisionId}/remote-controllers")
 public class RemoteControllerController {
 
     private final RemoteControllerService remoteControllerService;
@@ -23,47 +24,66 @@ public class RemoteControllerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RemoteControllerResponseDTO>> getAllRemoteControllers(@RequestParam(value = "brand", required = false) String brand) {
-        return ResponseEntity.ok(remoteControllerService.getRemoteControllers(brand));
+    public ResponseEntity<List<RemoteControllerResponseDTO>> getAllRemoteControllers(
+            @PathVariable("televisionId") Long televisionId,
+            @RequestParam(value = "brand", required = false) String brand) {
+        return ResponseEntity.ok(remoteControllerService.getRemoteControllers(televisionId, brand));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RemoteControllerResponseDTO> getRemoteControllerById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(remoteControllerService.getRemoteControllerById(id));
+    @GetMapping("/{remoteControllerId}")
+    public ResponseEntity<RemoteControllerResponseDTO> getRemoteControllerById(
+            @PathVariable("televisionId") Long televisionId,
+            @PathVariable("remoteControllerId") Long remoteControllerId) {
+        return ResponseEntity.ok(remoteControllerService.getRemoteControllerById(televisionId, remoteControllerId));
     }
 
     @PostMapping
-    public ResponseEntity<?> addRemoteController(@Valid @RequestBody RemoteControllerCreateDTO newRemoteController,
-                                                 BindingResult result) {
+    public ResponseEntity<?> addRemoteController(
+            @PathVariable("televisionId") Long televisionId,
+            @Valid @RequestBody RemoteControllerCreateDTO newRemoteController,
+            BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        return ResponseEntity.created(null).body(remoteControllerService.addRemoteController(newRemoteController));
+        RemoteControllerResponseDTO createdRemoteController =
+                remoteControllerService.addRemoteController(televisionId, newRemoteController);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRemoteController);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateRemoteController(@PathVariable("id") Long id,
-                                                    @Valid @RequestBody RemoteControllerUpdateDTO updateDTO,
-                                                    BindingResult result) {
+    @PutMapping("/{remoteControllerId}")
+    public ResponseEntity<?> updateRemoteController(
+            @PathVariable("televisionId") Long televisionId,
+            @PathVariable("remoteControllerId") Long remoteControllerId,
+            @Valid @RequestBody RemoteControllerUpdateDTO updateDTO,
+            BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        return ResponseEntity.ok(remoteControllerService.updateRemoteController(id, updateDTO));
+        RemoteControllerResponseDTO updatedRemoteController =
+                remoteControllerService.updateRemoteController(televisionId, remoteControllerId, updateDTO);
+        return ResponseEntity.ok(updatedRemoteController);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> partialUpdateRemoteController(@PathVariable("id") Long id,
-                                                           @Valid @RequestBody RemoteControllerPatchDTO patchDTO,
-                                                           BindingResult result) {
+    @PatchMapping("/{remoteControllerId}")
+    public ResponseEntity<?> partialUpdateRemoteController(
+            @PathVariable("televisionId") Long televisionId,
+            @PathVariable("remoteControllerId") Long remoteControllerId,
+            @Valid @RequestBody RemoteControllerPatchDTO patchDTO,
+            BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        return ResponseEntity.ok(remoteControllerService.partialUpdateRemoteController(id, patchDTO));
+        RemoteControllerResponseDTO partiallyUpdatedRemoteController =
+                remoteControllerService.partialUpdateRemoteController(televisionId, remoteControllerId, patchDTO);
+        return ResponseEntity.ok(partiallyUpdatedRemoteController);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRemoteController(@PathVariable("id") Long id) {
-        remoteControllerService.deleteRemoteController(id);
+    @DeleteMapping("/{remoteControllerId}")
+    public ResponseEntity<Void> deleteRemoteController(
+            @PathVariable("televisionId") Long televisionId,
+            @PathVariable("remoteControllerId") Long remoteControllerId) {
+        remoteControllerService.deleteRemoteController(televisionId, remoteControllerId);
         return ResponseEntity.noContent().build();
     }
+
 }

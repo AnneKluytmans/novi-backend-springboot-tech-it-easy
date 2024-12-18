@@ -9,6 +9,7 @@ import nl.novi.techiteasy.mappers.RemoteControllerMapper;
 import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.repositories.RemoteControllerRepository;
+import nl.novi.techiteasy.repositories.TelevisionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,42 +18,55 @@ import java.util.List;
 public class RemoteControllerService {
 
     private final RemoteControllerRepository remoteControllerRepository;
-    private final TelevisionService televisionService;
+    private final TelevisionRepository televisionRepository;
 
-    public RemoteControllerService(RemoteControllerRepository remoteControllerRepository, TelevisionService televisionService) {
+    public RemoteControllerService(RemoteControllerRepository remoteControllerRepository, TelevisionRepository televisionRepository) {
         this.remoteControllerRepository = remoteControllerRepository;
-        this.televisionService = televisionService;
+        this.televisionRepository = televisionRepository;
     }
 
-    public List<RemoteControllerResponseDTO> getRemoteControllers(String brand) {
-        List<RemoteController> remoteControllers = (brand == null) ? remoteControllerRepository.findAll() : remoteControllerRepository.findByBrandIgnoreCase(brand);
+    public List<RemoteControllerResponseDTO> getRemoteControllers(Long televisionId, String brand) {
+        Television television = televisionRepository.findById(televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + televisionId + " not found"));
+
+        List<RemoteController> remoteControllers;
+
+        if (brand != null && !brand.isBlank()) {
+            remoteControllers = remoteControllerRepository.findByTelevisionIdAndBrandIgnoreCase(televisionId, brand);
+        } else {
+            remoteControllers = remoteControllerRepository.findByTelevisionId(televisionId);
+        }
+
         return RemoteControllerMapper.toDtoList(remoteControllers);
     }
 
 
-    public RemoteControllerResponseDTO getRemoteControllerById(Long id) {
-        RemoteController remoteController = remoteControllerRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + id + " not found"));
+    public RemoteControllerResponseDTO getRemoteControllerById(Long televisionId, Long remoteControllerId) {
+        RemoteController remoteController = remoteControllerRepository.findByIdAndTelevisionId(remoteControllerId, televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + remoteControllerId + " not found"));
         return RemoteControllerMapper.toDTO(remoteController);
     }
 
 
-    public RemoteControllerResponseDTO addRemoteController(RemoteControllerCreateDTO createDto) {
-        RemoteController remoteController = RemoteControllerMapper.toEntity(createDto, televisionService);
+    public RemoteControllerResponseDTO addRemoteController(Long televisionId, RemoteControllerCreateDTO createDto) {
+        Television television = televisionRepository.findById(televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + televisionId + " not found"));
 
-        if (createDto.getTelevisionId() != null) {
-            Television television = televisionService.getTelevisionEntityById(createDto.getTelevisionId());
-            remoteController.setTelevision(television);
-        }
+        RemoteController remoteController = RemoteControllerMapper.toEntity(createDto);
+        remoteController.setTelevision(television);
 
         RemoteController savedRemoteController = remoteControllerRepository.save(remoteController);
         return RemoteControllerMapper.toDTO(savedRemoteController);
     }
 
 
-    public RemoteControllerResponseDTO updateRemoteController(Long id, RemoteControllerUpdateDTO updateDTO) {
-        RemoteController remoteController = remoteControllerRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + id + " not found"));
+    public RemoteControllerResponseDTO updateRemoteController(Long televisionId, Long remoteControllerId,
+                                                              RemoteControllerUpdateDTO updateDTO) {
+        RemoteController remoteController = remoteControllerRepository.findById(remoteControllerId)
+                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + remoteControllerId + " not found"));
+
+        Television television = televisionRepository.findById(televisionId)
+                        .orElseThrow(() -> new RecordNotFoundException("Television with ID " + televisionId + " not found"));
 
         remoteController.setBrand(updateDTO.getBrand());
         remoteController.setName(updateDTO.getName());
@@ -62,19 +76,20 @@ public class RemoteControllerService {
         remoteController.setOriginalStock(updateDTO.getOriginalStock());
         remoteController.setSold(updateDTO.getSold());
         remoteController.setSaleDate(updateDTO.getSaleDate());
+        remoteController.setTelevision(television);
 
-        if (updateDTO.getTelevisionId() != null) {
-            Television television = televisionService.getTelevisionEntityById(updateDTO.getTelevisionId());
-            remoteController.setTelevision(television);
-        }
-
-        return RemoteControllerMapper.toDTO(remoteControllerRepository.save(remoteController));
+        RemoteController updatedRemoteController = remoteControllerRepository.save(remoteController);
+        return RemoteControllerMapper.toDTO(updatedRemoteController);
     }
 
 
-    public RemoteControllerResponseDTO partialUpdateRemoteController(Long id, RemoteControllerPatchDTO patchDto) {
-        RemoteController remoteController = remoteControllerRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + id + " not found"));
+    public RemoteControllerResponseDTO partialUpdateRemoteController(Long televisionId, Long remoteControllerId,
+                                                                     RemoteControllerPatchDTO patchDto) {
+        RemoteController remoteController = remoteControllerRepository.findById(remoteControllerId)
+                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + remoteControllerId + " not found"));
+
+        Television television = televisionRepository.findById(televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + televisionId + " not found"));
 
         if (patchDto.getBrand() != null) {
             remoteController.setBrand(patchDto.getBrand());
@@ -100,19 +115,17 @@ public class RemoteControllerService {
         if (patchDto.getSaleDate() != null) {
             remoteController.setSaleDate(patchDto.getSaleDate());
         }
-        if (patchDto.getTelevisionId() != null) {
-            Television television = televisionService.getTelevisionEntityById(patchDto.getTelevisionId());
-            remoteController.setTelevision(television);
-        }
+        remoteController.setTelevision(television);
 
-        return RemoteControllerMapper.toDTO(remoteControllerRepository.save(remoteController));
+        RemoteController updatedRemoteController = remoteControllerRepository.save(remoteController);
+        return RemoteControllerMapper.toDTO(updatedRemoteController);
     }
 
+    public void deleteRemoteController(Long televisionId, Long remoteControllerId) {
+        RemoteController remoteController = remoteControllerRepository.findByIdAndTelevisionId(remoteControllerId, televisionId)
+                .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + remoteControllerId
+                        + " not found for Television ID " + televisionId));
 
-    public void deleteRemoteController(Long id) {
-        if (!remoteControllerRepository.existsById(id)) {
-            throw new RecordNotFoundException("Remote Controller with ID " + id + " not found");
-        }
-        remoteControllerRepository.deleteById(id);
+        remoteControllerRepository.delete(remoteController);
     }
 }

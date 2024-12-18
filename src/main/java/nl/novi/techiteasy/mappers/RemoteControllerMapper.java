@@ -3,7 +3,6 @@ package nl.novi.techiteasy.mappers;
 import nl.novi.techiteasy.dtos.RemoteControllerCreateDTO;
 import nl.novi.techiteasy.dtos.RemoteControllerResponseDTO;
 import nl.novi.techiteasy.models.RemoteController;
-import nl.novi.techiteasy.models.Television;
 import nl.novi.techiteasy.services.TelevisionService;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +11,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class RemoteControllerMapper {
-
-    private final TelevisionService televisionService;
-
-    public RemoteControllerMapper(TelevisionService televisionService) {
-        this.televisionService = televisionService;
-    }
 
     public static RemoteControllerResponseDTO toDTO(RemoteController remoteController) {
         RemoteControllerResponseDTO dto = new RemoteControllerResponseDTO();
@@ -30,7 +23,6 @@ public class RemoteControllerMapper {
         dto.setOriginalStock(remoteController.getOriginalStock());
         dto.setSold(remoteController.getSold());
         dto.setSaleDate(remoteController.getSaleDate());
-        dto.setTelevisionId(remoteController.getTelevision().getId());
         return dto;
     }
 
@@ -38,22 +30,16 @@ public class RemoteControllerMapper {
         return remoteControllers.stream().map(RemoteControllerMapper::toDTO).collect(Collectors.toList());
     }
 
-    public static RemoteController toEntity(RemoteControllerCreateDTO createDTO, TelevisionService televisionService) {
+    public static RemoteController toEntity(RemoteControllerCreateDTO createDTO) {
         RemoteController remoteController = new RemoteController();
-        remoteController.setId(remoteController.getId());
-        remoteController.setBrand(remoteController.getBrand());
-        remoteController.setName(remoteController.getName());
-        remoteController.setPrice(remoteController.getPrice());
-        remoteController.setBatteryType(remoteController.getBatteryType());
-        remoteController.setIsSmart(remoteController.getIsSmart());
-        remoteController.setOriginalStock(remoteController.getOriginalStock());
-        remoteController.setSold(remoteController.getSold());
-        remoteController.setSaleDate(remoteController.getSaleDate());
-
-        if (createDTO.getTelevisionId() != null) {
-            Television television = televisionService.getTelevisionEntityById(createDTO.getTelevisionId());
-            remoteController.setTelevision(television);
-        }
+        remoteController.setBrand(createDTO.getBrand());
+        remoteController.setName(createDTO.getName());
+        remoteController.setPrice(createDTO.getPrice());
+        remoteController.setBatteryType(createDTO.getBatteryType());
+        remoteController.setIsSmart(createDTO.getIsSmart());
+        remoteController.setOriginalStock(createDTO.getOriginalStock());
+        remoteController.setSold(createDTO.getSold());
+        remoteController.setSaleDate(createDTO.getSaleDate());
 
         return remoteController;
     }
