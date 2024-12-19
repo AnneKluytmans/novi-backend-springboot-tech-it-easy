@@ -23,13 +23,6 @@ public class RemoteControllerController {
         this.remoteControllerService = remoteControllerService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<RemoteControllerResponseDTO>> getAllRemoteControllers(
-            @PathVariable("televisionId") Long televisionId,
-            @RequestParam(value = "brand", required = false) String brand) {
-        return ResponseEntity.ok(remoteControllerService.getRemoteControllers(televisionId, brand));
-    }
-
     @GetMapping("/{remoteControllerId}")
     public ResponseEntity<RemoteControllerResponseDTO> getRemoteControllerById(
             @PathVariable("televisionId") Long televisionId,

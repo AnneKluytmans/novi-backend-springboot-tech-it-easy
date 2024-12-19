@@ -25,22 +25,6 @@ public class RemoteControllerService {
         this.televisionRepository = televisionRepository;
     }
 
-    public List<RemoteControllerResponseDTO> getRemoteControllers(Long televisionId, String brand) {
-        Television television = televisionRepository.findById(televisionId)
-                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + televisionId + " not found"));
-
-        List<RemoteController> remoteControllers;
-
-        if (brand != null && !brand.isBlank()) {
-            remoteControllers = remoteControllerRepository.findByTelevisionIdAndBrandIgnoreCase(televisionId, brand);
-        } else {
-            remoteControllers = remoteControllerRepository.findByTelevisionId(televisionId);
-        }
-
-        return RemoteControllerMapper.toDtoList(remoteControllers);
-    }
-
-
     public RemoteControllerResponseDTO getRemoteControllerById(Long televisionId, Long remoteControllerId) {
         RemoteController remoteController = remoteControllerRepository.findByIdAndTelevisionId(remoteControllerId, televisionId)
                 .orElseThrow(() -> new RecordNotFoundException("Remote Controller with ID " + remoteControllerId + " not found"));
