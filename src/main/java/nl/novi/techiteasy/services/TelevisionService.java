@@ -2,11 +2,8 @@ package nl.novi.techiteasy.services;
 
 import nl.novi.techiteasy.dtos.*;
 import nl.novi.techiteasy.exceptions.RecordNotFoundException;
-import nl.novi.techiteasy.mappers.RemoteControllerMapper;
 import nl.novi.techiteasy.mappers.TelevisionMapper;
-import nl.novi.techiteasy.models.RemoteController;
 import nl.novi.techiteasy.models.Television;
-import nl.novi.techiteasy.repositories.RemoteControllerRepository;
 import nl.novi.techiteasy.repositories.TelevisionRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +12,9 @@ import java.util.List;
 @Service
 public class TelevisionService {
     private final TelevisionRepository televisionRepository;
-    private final RemoteControllerRepository remoteControllerRepository;
 
-    public TelevisionService(TelevisionRepository televisionRepository, RemoteControllerRepository remoteControllerRepository) {
+    public TelevisionService(TelevisionRepository televisionRepository) {
         this.televisionRepository = televisionRepository;
-        this.remoteControllerRepository = remoteControllerRepository;
     }
 
     public List<TelevisionResponseDTO> getTelevisions(String brand) {
@@ -33,15 +28,10 @@ public class TelevisionService {
         return TelevisionMapper.toDto(television);
     }
 
-    public Television getTelevisionEntityById(Long id) {
-        return televisionRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Television with ID " + id + " not found"));
-    }
-
     public TelevisionResponseDTO addTelevision(TelevisionCreateDTO createDto) {
         Television television = TelevisionMapper.toEntity(createDto);
         Television savedTelevision = televisionRepository.save(television);
-        return TelevisionMapper.toDto(savedTelevision);
+            return TelevisionMapper.toDto(savedTelevision);
     }
 
     public TelevisionResponseDTO updateTelevision(Long id, TelevisionUpdateDTO updateDTO) {
