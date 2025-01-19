@@ -7,6 +7,9 @@ import nl.novi.techiteasy.models.Authority;
 import nl.novi.techiteasy.models.User;
 import nl.novi.techiteasy.repositories.UserRepository;
 import nl.novi.techiteasy.utils.RandomStringGenerator;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,10 +19,12 @@ import java.util.Set;
 
 @Service
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDTO> getUsers() {
@@ -32,7 +37,12 @@ public class UserService {
     }
 
     public UserDTO getUser(String username) {
-        UserDTO dto = new UserDTO();
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!currentUsername.equals(username)) {
+            throw new AccessDeniedException("You are not allowed to access this user.");
+        }
+
+        UserDTO dto;
         Optional<User> user = userRepository.findById(username);
         if (user.isPresent()){
             dto = fromUser(user.get());
@@ -114,7 +124,7 @@ public class UserService {
         var user = new User();
 
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword()); /*TODO encrypted password*/
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
