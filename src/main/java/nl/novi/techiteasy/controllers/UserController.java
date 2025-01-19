@@ -23,7 +23,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "")
+    @GetMapping()
     public ResponseEntity<List<UserDTO>> getUsers() {
 
         List<UserDTO> userDtos = userService.getUsers();
@@ -40,7 +40,7 @@ public class UserController {
 
     }
 
-    @PostMapping(value = "")
+    @PostMapping()
     public ResponseEntity<UserDTO> createKlant(@RequestBody UserDTO dto) {;
 
         String newUsername = userService.createUser(dto);
