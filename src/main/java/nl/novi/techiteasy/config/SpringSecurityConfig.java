@@ -38,7 +38,7 @@ public class SpringSecurityConfig {
     }
 
 
-    // Authorizatie met jwt
+    // Authorisatie met jwt
     @Bean
     protected SecurityFilterChain filter (HttpSecurity http) throws Exception {
 
