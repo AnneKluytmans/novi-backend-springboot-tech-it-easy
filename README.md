@@ -84,11 +84,6 @@ The service demonstrates best practices for separation of concerns, DTO usage, v
 
 ---
 
-
-## How to Run
-
-### Using IntelliJ IDEA
-
 ## How to Run
 
 1. Clone the repository or open the project in your IDE (IntelliJ IDEA)
